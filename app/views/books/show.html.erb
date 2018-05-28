@@ -24,13 +24,13 @@
 						<% end %>
 					</div>
 					<h2>New book</h2>
-					<%= form_for(@book) do |f| %>
+					<%= form_for(@bookz) do |f| %>
 
-					<% if @book.errors.any? %>
+					<% if @bookz.errors.any? %>
 					<div id="error_explanation">
-					<h2><%= @post_image.errors.count %>件のエラーが発生しました。</h2>
+					<h2><%= @bookz.errors.count %>件のエラーが発生しました。</h2>
 					<ul>
-					<% @post_image.errors.full_messages.each do |message| %>
+					<% @bookz.errors.full_messages.each do |message| %>
 					<li><%= message %></li>
 					<% end %>
 					</ul>
@@ -56,16 +56,24 @@
 						<tbody>
 								<tr>
 									<td>
-										
+										<%= attachment_image_tag @book.user, :profile_image, :fill, 60, 60, fallback: "no_image.jpg" %><br><%= @book.user.name %>
 									</td>
 									<td>
-										
+										<%= @book.title %>
 									</td>
 									<td>
-										
+										<%= @book.body %>
 									</td>
-									<td></td>
-									<td></td>
+									<td>
+										<% if @book.user == current_user %>
+										<%= link_to "Edit", edit_book_path(@book) %>
+										<% end %>
+									</td>
+									<td>
+										<% if @book.user == current_user %>
+										<%= link_to "Destroy", book_path(@book), method: :delete %>
+										<% end %>
+									</td>
 								</tr>
 						</tbody>
 					</table>

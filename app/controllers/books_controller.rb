@@ -16,7 +16,7 @@ class BooksController < ApplicationController
     # @user = User.find_by(id: params[:id])
     # @user = User.find(user_id).name
     # @user = User.find(params[:id])
-    @book = Book.new
+    @bookz = Book.new
   end
 
   def new
@@ -34,7 +34,8 @@ class BooksController < ApplicationController
     # end
   	# book = Book.new(book_params)
     # book.save
-    redirect_to book_path(book.id)
+    # redirect_to book_path(book.id)
+    redirect_to @book
   end
 
   def edit
@@ -48,8 +49,8 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    book = Book.find(params[:id])
-    book.destroy
+    @book = Book.find(params[:id])
+    @book.destroy
     redirect_to books_path, notice: "Book was successfully destroyed."
   end
 

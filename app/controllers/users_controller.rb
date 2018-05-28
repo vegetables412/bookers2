@@ -28,10 +28,12 @@ private
 		params.require(:user).permit(:name, :profile_image, :introduction)
 	end
 
-	# def correct_user
-	# 	user = User.find(params[:id])
-	# 	if current_user != user
-	# 	redirect_to root_path
-	# end
+	def correct_user
+		# user = User.find(params[:id])
+		@user = User.find(params[:id])
+		# if current_user != user
+		# redirect_to root_path
+		redirect_to(root_url) unless @user == current_user
+	end
 
 end
