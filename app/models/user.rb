@@ -10,4 +10,5 @@ validates :name, presence: true
 validates :name,
   uniqueness: { case_sensitive: :false },
   length: { minimum: 2, maximum: 20 }
+validates :introduction, length: { in: 0..50 }
 end

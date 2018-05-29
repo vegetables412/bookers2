@@ -1,10 +1,13 @@
 <body>
 	<div class="body">
 		<div class="container">
+			<% if flash[:notice] %>
+				<p id="notice"><%= flash[:notice] %></p>
+			<% end %>
 			<div class="row">
 				<div class="col-xs-3">
 					<h2>User info</h2>
-					<%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+					<%= attachment_image_tag @user, :profile_image, :fill, 100, 100, :size => '100x100', format: 'jpeg', class: "pull-left profile-img", fallback: "no_image.jpg" %>
 					<table class="table">
 						<tbody>
 							<tr></tr>
@@ -24,10 +27,13 @@
 						<% end %>
 					</div>
 					<h2>New book</h2>
+					<% if @book.errors.any? %>
+						<p>エラーでーす。</p>
+					<% end %>
 					<%= form_for(@book) do |f| %>
 
 					<% if @book.errors.any? %>
-					<div id="error_explanation">
+					<div id="error_explanation" class="alert alert-danger">
 					<h2><%= @book.errors.count %>件のエラーが発生しました。</h2>
 					<ul>
 					<% @book.errors.full_messages.each do |message| %>
@@ -35,6 +41,10 @@
 					<% end %>
 					</ul>
 					</div>
+					<% end %>
+
+					<% if @book.errors.any? %>
+						<p>エラーでーす。</p>
 					<% end %>
 
 					<div class="field row">
@@ -64,7 +74,7 @@
 							<% @users.each do |user| %>
 								<tr>
 									<td>
-										<%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+										<%= attachment_image_tag @user, :profile_image, :fill, 40, 40, :size => '40x40', format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
 									</td>
 									<td>
 										<%= user.name %>

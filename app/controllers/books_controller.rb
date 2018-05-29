@@ -1,4 +1,7 @@
 class BooksController < ApplicationController
+
+before_action :correct_user, only: [:edit, :update]
+
   def top
   end
 
@@ -26,16 +29,17 @@ class BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
     @book.user_id = current_user.id
-    @book.save
-    # if @book.save
-    #       redirect_to books_path
-    # else
-    #       render :new
-    # end
+    # @book.save
+    if @book.save
+          redirect_to @book
+    else
+          # render :new
+          redirect_to @book, notice: "ブランクでの投稿はできません。"
+    end
   	# book = Book.new(book_params)
     # book.save
     # redirect_to book_path(book.id)
-    redirect_to @book
+    # redirect_to @book
   end
 
   def edit
@@ -45,18 +49,26 @@ class BooksController < ApplicationController
   def update
     book = Book.find(params[:id])
     book.update(book_params)
-    redirect_to book_path(book.id), notice: "Book was successfully updated."
+    redirect_to book_path(book.id)
   end
 
   def destroy
     @book = Book.find(params[:id])
     @book.destroy
-    redirect_to books_path, notice: "Book was successfully destroyed."
+    redirect_to books_path
   end
 
-  private
-    def book_params
-      params.require(:book).permit(:title, :body, :user_id)
-    end
+# protected
 
+
+private
+  def book_params
+    params.require(:book).permit(:title, :body, :user_id)
+  end
+
+  def correct_user
+    # @user = User.find_by(id: params[:id])
+    @book = Book.find_by(id: params[:id])
+    redirect_to(root_url) unless @book.user == current_user
+  end
 end
